@@ -7,61 +7,47 @@
 
         <a class="navbar-brand fw-bold" href="#">🛍️ Shopping</a>
 
-
         <button
-            class="btn d-lg-none btn-primary position-relative"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#checkoutOffcanvas">
-
-            🛒 Cart
-
-            <span class="position-absolute top-0 start-100 translate-middle badge bg-danger">
-              {{ cart.length }}
-            </span>
-
-          </button>
-        
-
-        <button class="navbar-toggler" type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav">
-          <span class="navbar-toggler-icon"></span>
+          class="btn d-lg-none btn-primary position-relative"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#checkoutOffcanvas"
+        >
+          🛒 Cart
+          <span class="position-absolute top-0 start-100 translate-middle badge bg-danger">
+            {{ cart.length }}
+          </span>
         </button>
 
-
-        
-
-
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="collapse navbar-collapse">
 
           <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <a class="nav-link active" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Products</a>
-            </li>
+            <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Products</a></li>
           </ul>
 
           <button
             class="btn btn-primary position-relative"
             data-bs-toggle="offcanvas"
-            data-bs-target="#checkoutOffcanvas">
-
+            data-bs-target="#checkoutOffcanvas"
+          >
             🛒 Cart
-
             <span class="position-absolute top-0 start-100 translate-middle badge bg-danger">
               {{ cart.length }}
             </span>
-
           </button>
+
         </div>
       </nav>
     </header>
 
     <!-- PRODUCTS -->
-    <div id="products" class="container my-5">
+    <div class="container my-5">
       <h2 class="text-center fw-bold mb-4">🛍️ Products</h2>
+      
+      <div class="d-flex justify-content-center">
+        <img width="100px" v-if="loading" src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Loading_2.gif?_=20170503175831" alt="">
+      </div>
+
 
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
 
@@ -69,24 +55,21 @@
 
           <div class="card h-100 shadow-sm border-0 rounded-4">
 
-            <div class="bg-light d-flex justify-content-center align-items-center p-3 rounded-top-4"
+            <div class="bg-light d-flex justify-content-center align-items-center p-3"
               style="height: 200px;">
               <img :src="p.image" class="img-fluid" style="max-height: 100%; object-fit: contain;">
             </div>
 
             <div class="card-body d-flex flex-column">
 
-              <h6 class="fw-semibold text-truncate">
-                {{ p.title }}
-              </h6>
+              <h6 class="fw-semibold text-truncate">{{ p.title }}</h6>
 
-              <p class="text-success fw-bold fs-5 mb-3">
-                ${{ p.price }}
-              </p>
+              <p class="text-success fw-bold fs-5">${{ p.price }}</p>
 
               <button
                 @click="addToCart(p)"
-                class="btn btn-primary mt-auto w-100 rounded-pill">
+                class="btn btn-primary mt-auto w-100 rounded-pill"
+              >
                 Add to Cart
               </button>
 
@@ -99,11 +82,11 @@
     </div>
 
     <!-- OFFCANVAS CART -->
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="checkoutOffcanvas">
+    <div class="offcanvas offcanvas-end" id="checkoutOffcanvas">
 
       <div class="offcanvas-header border-bottom">
-        <h5 class="offcanvas-title">🧾 CheckOut</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        <h5>🧾 CheckOut</h5>
+        <button class="btn-close" data-bs-dismiss="offcanvas"></button>
       </div>
 
       <div class="offcanvas-body d-flex flex-column">
@@ -114,7 +97,7 @@
 
         <div v-for="item in cart" :key="item.id" class="border-bottom pb-3 mb-3">
 
-          <div class="d-flex align-items-center gap-2">
+          <div class="d-flex gap-2 align-items-center">
             <img :src="item.image" width="50" class="rounded">
             <span class="fw-semibold text-truncate">{{ item.title }}</span>
           </div>
@@ -125,7 +108,7 @@
             <button class="btn btn-sm btn-primary" @click="updateQty(item, 1)">+</button>
           </div>
 
-          <div class="d-flex justify-content-between align-items-center mt-2">
+          <div class="d-flex justify-content-between mt-2">
             <span class="fw-semibold">
               ${{ (item.price * item.qty).toFixed(2) }}
             </span>
@@ -147,82 +130,105 @@
             class="btn btn-success w-100 mt-2"
             data-bs-toggle="modal"
             data-bs-target="#paymentModal"
-            >
+          >
             Pay Now
-        </button>
+          </button>
 
         </div>
 
       </div>
     </div>
+<!-- PAYMENT MODAL -->
+<div class="modal fade" id="paymentModal">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
 
+    <div class="modal-content rounded-4 shadow-lg overflow-hidden">
 
-    <!-- PAYMENT MODAL -->
-<div class="modal fade" id="paymentModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-
-    <div class="modal-content rounded-4">
-
-      <!-- Header -->
-      <div class="modal-header">
-        <h5 class="modal-title">💳 Payment Method</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      <!-- HEADER -->
+      <div class="modal-header bg-dark text-white">
+        <h5 class="mb-0">💳 Secure Checkout</h5>
+        <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
 
-      <!-- Body -->
-      <div class="modal-body text-center">
+      <div class="modal-body p-4">
 
-        <!-- Tabs -->
-        <ul class="nav nav-pills justify-content-center mb-3">
-          <li class="nav-item">
-            <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#qr">
-              QR Code
-            </button>
-          </li>
+        <div class="row g-4">
 
-          <li class="nav-item">
-            <button class="nav-link" data-bs-toggle="pill" data-bs-target="#visa">
-              Visa Card
-            </button>
-          </li>
-        </ul>
+          <!-- LEFT: ORDER SUMMARY -->
+          <div class="col-md-7">
 
-        <div class="tab-content">
+            <h6 class="fw-bold mb-3">🧾 Order Summary</h6>
 
-          <!-- QR CODE -->
-          <div class="tab-pane fade show active" id="qr">
-            <p class="text-muted">Scan to pay</p>
+            <div
+              v-for="item in cart"
+              :key="item.id"
+              class="d-flex align-items-center justify-content-between border-bottom py-2"
+            >
 
-            <img
-              src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=Pay%20Now%20Order"
-              class="img-fluid rounded"
-              alt="QR Code"
-            />
+              <div class="d-flex align-items-center gap-2">
+                <img :src="item.image" width="45" class="rounded">
+                <div>
+                  <div class="fw-semibold text-truncate" style="max-width: 180px;">
+                    {{ item.title }}
+                  </div>
+                  <small class="text-muted">Qty: {{ item.qty }}</small>
+                </div>
+              </div>
 
-            <h5 class="text-danger mt-3">
-            Total: ${{ total.toFixed(2) }}
-          </h5>
+              <div class="fw-bold text-success">
+                ${{ (item.price * item.qty).toFixed(2) }}
+              </div>
+
+            </div>
 
           </div>
 
-          <!-- VISA CARD -->
-          <div class="tab-pane fade" id="visa">
+          <!-- RIGHT: PAYMENT CARD -->
+          <div class="col-md-5">
 
-            <div class="card bg-dark text-white p-3 rounded-4 text-start">
+            <div class="card border-0 shadow-sm rounded-4 p-3">
 
-              <div class="d-flex justify-content-between">
-                <span>💳 VISA</span>
-                <span>Bank</span>
+              <h6 class="fw-bold mb-3">💰 Payment Details</h6>
+
+              <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Subtotal</span>
+                <span>${{ total.toFixed(2) }}</span>
               </div>
 
-              <h5 class="mt-3">**** **** **** 1234</h5>
-
-              <div class="d-flex justify-content-between mt-3">
-                <small>Card Holder</small>
-                <small>EXPIRE 12/30</small>
+              <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Delivery</span>
+                <span>$0.00</span>
               </div>
 
-              <strong class="mt-2">CHHAT RO</strong>
+              <hr>
+
+              <div class="d-flex justify-content-between fs-5 fw-bold">
+                <span>Total</span>
+                <span class="text-danger">${{ total.toFixed(2) }}</span>
+              </div>
+
+              <!-- PAYMENT METHOD -->
+              <div class="mt-3">
+                <label class="form-label fw-semibold">Payment Method</label>
+
+                <select class="form-select rounded-3 shadow-none">
+                  <option>💳 Card Payment</option>
+                  <option>📱 QR Pay</option>
+                  <option>🏦 Bank Transfer</option>
+                </select>
+              </div>
+
+              <!-- BUTTON -->
+              <button
+                class="btn btn-success w-100 mt-4 rounded-pill py-2 fw-bold"
+                @click="confirmPayment"
+              >
+                🔒 Confirm & Pay
+              </button>
+
+              <small class="text-muted d-block text-center mt-2">
+                Secure payment protected 🔐
+              </small>
 
             </div>
 
@@ -232,118 +238,125 @@
 
       </div>
 
-      <!-- Footer -->
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
+      <!-- FOOTER -->
+      <div class="modal-footer bg-light">
+
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">
+          Cancel
         </button>
 
-        <button
-            class="btn btn-primary"
-            @click="confirmPayment"
-             data-bs-toggle="modal"
-            data-bs-target="#successModal" >
-            Confirm Payment
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+    <!-- SUCCESS MODAL -->
+    <div class="modal fade" id="successModal">
+      <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content text-center p-4 rounded-4">
+
+          <div class="modal-body">
+
+            <div class="display-1 text-success">✔️</div>
+
+            <h4>Payment Success</h4>
+
+            <p class="text-muted">Order completed 🎉</p>
+
+            <button class="btn btn-success mt-3" @click="closeSuccess">
+              OK
             </button>
-      </div>
 
-    </div>
-  </div>
-</div>
+          </div>
 
-
-<!-- SUCCESS MODAL -->
-<div class="modal fade" id="successModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-
-    <div class="modal-content rounded-4 text-center p-4">
-
-      <div class="modal-body">
-
-        <div class="display-1 text-success">✔️</div>
-
-        <h4 class="fw-bold mt-3">Payment Success</h4>
-
-        <p class="text-muted">
-          Your order has been successfully paid 🎉
-        </p>
-
-        <button
-          class="btn btn-success mt-3"
-          @click="closeSuccess"
-        >
-          OK
-        </button>
-
+        </div>
 
       </div>
-
     </div>
-
-  </div>
-</div>
 
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 
 const products = ref([])
 const cart = ref([])
 
-// FETCH PRODUCTS
+const loading  = ref(true)
+
+// FETCH
 const fetchProduct = async () => {
   const res = await fetch("https://fakestoreapi.com/products")
   products.value = await res.json()
+  loading.value = false;
 }
 
-// ADD TO CART
+// CART
 const addToCart = (p) => {
   const exist = cart.value.find(i => i.id === p.id)
-  if (exist) {
-    exist.qty++
-  } else {
-    cart.value.push({ ...p, qty: 1 })
-  }
+  exist ? exist.qty++ : cart.value.push({ ...p, qty: 1 })
 }
 
-// UPDATE QTY
 const updateQty = (item, change) => {
   item.qty += change
-  if (item.qty <= 0) {
-    removeItem(item.id)
-  }
+  if (item.qty <= 0) removeItem(item.id)
 }
 
-// REMOVE ITEM
 const removeItem = (id) => {
   cart.value = cart.value.filter(i => i.id !== id)
 }
 
-// TOTAL (FIXED: return NUMBER ONLY)
-const total = computed(() => {
-  return cart.value.reduce((sum, i) => sum + i.price * i.qty, 0)
-})
+// TOTAL
+const total = computed(() =>
+  cart.value.reduce((s, i) => s + i.price * i.qty, 0)
+)
 
-// ON MOUNT
-onMounted(() => {
-  fetchProduct()
-})
+// PAYMENT FLOW
+const confirmPayment = () => {
 
+  const paymentModal = bootstrap.Modal.getInstance(
+    document.getElementById('paymentModal')
+  )
+
+  paymentModal?.hide()
+
+  setTimeout(() => {
+    const successModal = new bootstrap.Modal(
+      document.getElementById('successModal')
+    )
+    successModal.show()
+  }, 300)
+}
+
+// SUCCESS CLOSE (FIXED)
 const closeSuccess = () => {
+
   const modalEl = document.getElementById('successModal')
   const modal = bootstrap.Modal.getInstance(modalEl)
 
   modal?.hide()
 
-  document.querySelectorAll('.modal-backdrop').forEach(el => el.remove())
+  setTimeout(() => {
+    document.querySelectorAll('.modal-backdrop').forEach(el => el.remove())
+  }, 200)
 
-  // clear cart
   cart.value = []
-
-  // clear storage
   localStorage.removeItem('cart')
 }
+
+// LOCAL STORAGE (optional but recommended)
+onMounted(() => {
+  fetchProduct()
+  cart.value = JSON.parse(localStorage.getItem('cart')) || []
+})
+
+watch(cart, () => {
+  localStorage.setItem('cart', JSON.stringify(cart.value))
+}, { deep: true })
 
 </script>
