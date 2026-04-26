@@ -3,17 +3,17 @@
 
     <!-- NAVBAR -->
     <header class="position-sticky top-0 z-3">
-      <nav class="navbar mt-5 rounded-4 navbar-expand-lg navbar-dark bg-dark px-4">
+      <nav class="navbar mt-5 rounded-4 shadow-lg navbar-expand-lg navbar-dark bg-dark px-4">
 
         <a class="navbar-brand fw-bold" href="#">🛍️ Shopping</a>
 
         <button
-          class="btn d-lg-none btn-primary position-relative"
+          class="btn d-lg-none position-relative"
           data-bs-toggle="offcanvas"
           data-bs-target="#checkoutOffcanvas"
         >
-          🛒 Cart
-          <span class="position-absolute top-0 start-100 translate-middle badge bg-danger">
+          <i class="bi fs-3 text-light bi-bag-check-fill"></i>
+          <span class="position-absolute  translate-middle badge bg-danger" style="top: 15px;  border-radius: 50%; left: 35px;">
             {{ cart.length }}
           </span>
         </button>
@@ -26,12 +26,12 @@
           </ul>
 
           <button
-            class="btn btn-primary position-relative"
+            class="btn position-relative"
             data-bs-toggle="offcanvas"
             data-bs-target="#checkoutOffcanvas"
           >
-            🛒 Cart
-            <span class="position-absolute top-0 start-100 translate-middle badge bg-danger">
+            <i class="bi fs-3 text-light bi-bag-check-fill"></i>
+            <span class="position-absolute  translate-middle badge bg-danger" style="top: 15px; border-radius: 50%;">
               {{ cart.length }}
             </span>
           </button>
@@ -42,7 +42,7 @@
 
     <!-- PRODUCTS -->
     <div class="container my-5">
-      <h2 class="text-center fw-bold mb-4">🛍️ Products</h2>
+      <h2 class="text-center fw-bold mb-5">🛍️ Products</h2>
       
       <div class="d-flex justify-content-center">
         <img width="100px" v-if="loading" src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Loading_2.gif?_=20170503175831" alt="">
@@ -53,7 +53,7 @@
 
         <div class="col" v-for="p in products" :key="p.id">
 
-          <div class="card h-100 shadow-sm border-0 rounded-4">
+          <div class="card h-100 shadow border-0 rounded-4">
 
             <div class="bg-light d-flex justify-content-center align-items-center p-3"
               style="height: 200px;">
@@ -220,15 +220,19 @@
 
               <!-- BUTTON -->
               <button
-                class="btn btn-success w-100 mt-4 rounded-pill py-2 fw-bold"
-                @click="confirmPayment"
-              >
+              type="button"
+              class="btn btn-primary w-100 mt-4 rounded-pill py-2 fw-bold"
+              @click="confirmPayment"
+              :disabled="isLoading"
+            >
+              <span v-if="!isLoading">
                 🔒 Confirm & Pay
-              </button>
+              </span>
 
-              <small class="text-muted d-block text-center mt-2">
-                Secure payment protected 🔐
-              </small>
+              <span v-else>
+                ⏳ Processing Payment...
+              </span>
+            </button>
 
             </div>
 
@@ -254,6 +258,7 @@
 
 
     <!-- SUCCESS MODAL -->
+    
     <div class="modal fade" id="successModal">
       <div class="modal-dialog modal-dialog-centered">
 
@@ -278,7 +283,15 @@
       </div>
     </div>
 
+
+
+
+
   </div>
+
+
+
+
 </template>
 
 <script setup>
@@ -318,6 +331,8 @@ const total = computed(() =>
 
 const confirmPayment = () => {
 
+  
+
   const paymentEl = document.getElementById('paymentModal')
   const paymentModal = bootstrap.Modal.getInstance(paymentEl)
 
@@ -325,6 +340,8 @@ const confirmPayment = () => {
 
   setTimeout(() => {
 
+
+    
     const successEl = document.getElementById('successModal')
 
     const successModal =
@@ -332,8 +349,11 @@ const confirmPayment = () => {
 
     successModal.show()
 
-  }, 500)
+  },1000)
 }
+
+
+
 
 // SUCCESS CLOSE (FIXED)
 const closeSuccess = () => {
