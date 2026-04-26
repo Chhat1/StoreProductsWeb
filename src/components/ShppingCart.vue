@@ -3,9 +3,9 @@
 
     <!-- NAVBAR -->
     <header class="position-sticky top-0 z-3">
-      <nav class="navbar mt-5 rounded-4 shadow-lg navbar-expand-lg navbar-dark bg-dark px-4">
+      <nav class="navbar bg-gd  mt-5 rounded-4 shadow-lg navbar-expand-lg   px-4">
 
-        <a class="navbar-brand fw-bold" href="#">🛍️ Shopping</a>
+        <a class="navbar-brand fw-bold text-light" href="#">🛍️ Shopping</a>
 
         <button
           class="btn d-lg-none position-relative"
@@ -20,9 +20,9 @@
 
         <div class="collapse navbar-collapse">
 
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Products</a></li>
+          <ul class="navbar-nav  me-auto">
+            <li class="nav-item"><a class="nav-link fw-medium active" href="#">Home</a></li>
+            <li class="nav-item"><a class="nav-link fw-medium" href="#">Products</a></li>
           </ul>
 
           <button
@@ -382,3 +382,12 @@ watch(cart, () => {
 }, { deep: true })
 
 </script>
+
+<style scoped>
+  .bg-gd{
+    
+    background: linear-gradient(135deg,#7AA8FF,#FF9AEF);
+    
+    
+  }
+</style>

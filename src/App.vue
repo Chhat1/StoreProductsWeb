@@ -6,6 +6,9 @@ import ShppingCart from './components/ShppingCart.vue';
 </script>
 
 <template>
-    <ShppingCart/>
-    <Footer/>
+    
+        <ShppingCart/>
+        <Footer/>
 </template>
+
+
