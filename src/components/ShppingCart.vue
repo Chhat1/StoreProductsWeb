@@ -316,21 +316,23 @@ const total = computed(() =>
   cart.value.reduce((s, i) => s + i.price * i.qty, 0)
 )
 
-// PAYMENT FLOW
 const confirmPayment = () => {
 
-  const paymentModal = bootstrap.Modal.getInstance(
-    document.getElementById('paymentModal')
-  )
+  const paymentEl = document.getElementById('paymentModal')
+  const paymentModal = bootstrap.Modal.getInstance(paymentEl)
 
   paymentModal?.hide()
 
   setTimeout(() => {
-    const successModal = new bootstrap.Modal(
-      document.getElementById('successModal')
-    )
+
+    const successEl = document.getElementById('successModal')
+
+    const successModal =
+      bootstrap.Modal.getOrCreateInstance(successEl)
+
     successModal.show()
-  }, 300)
+
+  }, 500)
 }
 
 // SUCCESS CLOSE (FIXED)
