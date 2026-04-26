@@ -9,7 +9,7 @@
 
 
         <button
-            class="btn btn-primary position-relative"
+            class="btn d-lg-none btn-primary position-relative"
             data-bs-toggle="offcanvas"
             data-bs-target="#checkoutOffcanvas">
 
@@ -29,7 +29,7 @@
         </button>
 
 
-
+        
 
 
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -42,12 +42,25 @@
               <a class="nav-link" href="#">Products</a>
             </li>
           </ul>
+
+          <button
+            class="btn btn-primary position-relative"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#checkoutOffcanvas">
+
+            🛒 Cart
+
+            <span class="position-absolute top-0 start-100 translate-middle badge bg-danger">
+              {{ cart.length }}
+            </span>
+
+          </button>
         </div>
       </nav>
     </header>
 
     <!-- PRODUCTS -->
-    <div class="container my-5">
+    <div id="products" class="container my-5">
       <h2 class="text-center fw-bold mb-4">🛍️ Products</h2>
 
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
@@ -229,7 +242,7 @@
             class="btn btn-primary"
             @click="confirmPayment"
              data-bs-toggle="modal"
-            data-bs-target="#paymentModal" >
+            data-bs-target="#successModal" >
             Confirm Payment
             </button>
       </div>
@@ -257,10 +270,11 @@
 
         <button
           class="btn btn-success mt-3"
-          data-bs-dismiss="modal"
+          @click="closeSuccess"
         >
           OK
         </button>
+
 
       </div>
 
@@ -317,21 +331,19 @@ onMounted(() => {
   fetchProduct()
 })
 
+const closeSuccess = () => {
+  const modalEl = document.getElementById('successModal')
+  const modal = bootstrap.Modal.getInstance(modalEl)
 
-const confirmPayment = () => {
-  // close payment modal
-  const paymentModal = bootstrap.Modal.getInstance(
-    document.getElementById('paymentModal')
-  )
-  paymentModal.hide()
+  modal?.hide()
 
-  // reset cart
+  document.querySelectorAll('.modal-backdrop').forEach(el => el.remove())
+
+  // clear cart
   cart.value = []
 
-  // show success modal
-  const successModal = new bootstrap.Modal(
-    document.getElementById('successModal')
-  )
-  successModal.show()
+  // clear storage
+  localStorage.removeItem('cart')
 }
+
 </script>
