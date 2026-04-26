@@ -114,7 +114,7 @@
             </span>
 
             <button class="btn btn-sm btn-outline-danger" @click="removeItem(item.id)">
-              ❌
+              <i class="bi bi-x-lg"></i>
             </button>
           </div>
 
@@ -223,15 +223,11 @@
               type="button"
               class="btn btn-primary w-100 mt-4 rounded-pill py-2 fw-bold"
               @click="confirmPayment"
-              :disabled="isLoading"
             >
-              <span v-if="!isLoading">
+              <span>
                 🔒 Confirm & Pay
               </span>
 
-              <span v-else>
-                ⏳ Processing Payment...
-              </span>
             </button>
 
             </div>
@@ -331,8 +327,6 @@ const total = computed(() =>
 
 const confirmPayment = () => {
 
-  
-
   const paymentEl = document.getElementById('paymentModal')
   const paymentModal = bootstrap.Modal.getInstance(paymentEl)
 
@@ -340,15 +334,12 @@ const confirmPayment = () => {
 
   setTimeout(() => {
 
-
-    
     const successEl = document.getElementById('successModal')
 
     const successModal =
       bootstrap.Modal.getOrCreateInstance(successEl)
 
     successModal.show()
-
   },1000)
 }
 
@@ -365,7 +356,7 @@ const closeSuccess = () => {
 
   setTimeout(() => {
     document.querySelectorAll('.modal-backdrop').forEach(el => el.remove())
-  }, 200)
+  }, 100)
 
   cart.value = []
   localStorage.removeItem('cart')
@@ -384,53 +375,115 @@ watch(cart, () => {
 </script>
 
 <style scoped>
-  .bg-gd{
-    
-    background: linear-gradient(135deg,#7AA8FF,#FF9AEF);
-    
-    
-  }
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-
- 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
-* { font-family: 'Poppins', sans-serif; }
-
-.bg-gd {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+* {
+  font-family: 'Poppins', sans-serif;
 }
 
+/* ===== BACKGROUND ===== */
+body {
+  background: linear-gradient(135deg, #eef2ff, #fdf2ff);
+}
+
+/* ===== NAVBAR ===== */
+.bg-gd {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 20px;
+}
+
+/* ===== CARD ===== */
 .card {
-  transition: all 0.3s ease;
+  border: none;
   border-radius: 20px !important;
   overflow: hidden;
+  transition: all 0.35s ease;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
 }
 
 .card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15) !important;
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
 }
 
-.card-body img {
-  transition: transform 0.3s ease;
+/* IMAGE HOVER */
+.card img {
+  transition: transform 0.4s ease;
 }
-
 .card:hover img {
-  transform: scale(1.05);
+  transform: scale(1.08);
 }
 
+/* ===== BUTTON ===== */
 .btn-primary {
-  background: #764ba2;
+  background: linear-gradient(135deg, #667eea, #764ba2);
   border: none;
+  transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
-  background: #5a387c;
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(118,75,162,0.4);
 }
 
+/* ===== BADGE ===== */
+.badge {
+  font-size: 12px;
+  padding: 6px 10px;
+}
 
-.offcanvas { border-radius: 20px 0 0 20px; }
+/* ===== OFFCANVAS ===== */
+.offcanvas {
+  border-radius: 20px 0 0 20px;
+  background: #ffffff;
+}
+
+/* CART ITEM */
+.offcanvas-body .border-bottom {
+  transition: all 0.3s ease;
+}
+.offcanvas-body .border-bottom:hover {
+  background: #f8f9ff;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+/* ===== MODAL ===== */
+.modal-content {
+  border-radius: 20px;
+  animation: zoomIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* SUCCESS ICON ANIMATION */
+.display-1 {
+  animation: pop 0.5s ease;
+}
+
+@keyframes pop {
+  0% { transform: scale(0); }
+  80% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* ===== TITLE ===== */
+h2 {
+  letter-spacing: 1px;
+}
+
+/* ===== LOADING ===== */
+img[alt=""] {
+  filter: drop-shadow(0 0 10px rgba(0,0,0,0.2));
+}
 </style>
