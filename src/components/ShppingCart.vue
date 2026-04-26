@@ -390,4 +390,47 @@ watch(cart, () => {
     
     
   }
+
+
+ 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* { font-family: 'Poppins', sans-serif; }
+
+.bg-gd {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.card {
+  transition: all 0.3s ease;
+  border-radius: 20px !important;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15) !important;
+}
+
+.card-body img {
+  transition: transform 0.3s ease;
+}
+
+.card:hover img {
+  transform: scale(1.05);
+}
+
+.btn-primary {
+  background: #764ba2;
+  border: none;
+}
+
+.btn-primary:hover {
+  background: #5a387c;
+}
+
+
+.offcanvas { border-radius: 20px 0 0 20px; }
 </style>
